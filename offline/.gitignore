@@ -1,0 +1,12 @@
+# Re-include paths the root .gitignore would drop (e.g. com/android/tools/build/)
+!build/
+!*.keystore
+
+# Produced by setup.bat
+jdk/jdk-17/
+jdk/jdk17-win-x64.zip
+gradle/gradle-7.5.1-bin.zip
+gradle/maven-repo/com/facebook/react/hermes-android/0.72.4/hermes-android-0.72.4-release.aar
+gradle/maven-repo/com/facebook/react/hermes-android/0.72.4/hermes-android-0.72.4-debug.aar
+gradle/maven-repo/com/facebook/react/react-android/0.72.4/react-android-0.72.4-release.aar
+gradle/maven-repo/com/facebook/react/react-android/0.72.4/react-android-0.72.4-debug.aar

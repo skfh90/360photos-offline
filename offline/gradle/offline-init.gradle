@@ -1,0 +1,29 @@
+// Gradle init script for building without internet.
+// Puts the bundled Maven repository (offline/gradle/maven-repo) in front of every
+// repository list, so all plugins and dependencies resolve from disk.
+//
+// Usage (from the android folder):
+//   gradlew.bat --offline --init-script ..\offline\gradle\offline-init.gradle assembleDebug
+
+def offlineRepoUri = new File(buildscript.sourceFile.parentFile, 'maven-repo').toURI()
+
+def addOfflineRepo = { RepositoryHandler repos ->
+    // May be applied twice (init.d + --init-script); add only once.
+    if (repos.findByName('OfflineBundle') != null) return
+    def repo = repos.maven {
+        name = 'OfflineBundle'
+        url = offlineRepoUri
+    }
+    repos.remove(repo)
+    repos.addFirst(repo)
+}
+
+beforeSettings { settings ->
+    addOfflineRepo(settings.pluginManagement.repositories)
+    addOfflineRepo(settings.dependencyResolutionManagement.repositories)
+}
+
+allprojects { project ->
+    addOfflineRepo(project.buildscript.repositories)
+    addOfflineRepo(project.repositories)
+}
